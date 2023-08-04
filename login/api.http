@@ -1,0 +1,31 @@
+### Login ###
+
+POST http://localhost:8000/api/login
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "test"
+}
+
+### Register ###
+
+POST http://localhost:8000/api/register
+Content-Type: application/json
+
+{
+    "firstname": "test",
+    "lastname": "test",
+    "username": "test",
+    "password": "test"
+}
+
+### Refresh Token ###
+
+GET http://localhost:8000/api/refresh
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJjbGllbnQiLCJleHAiOjE2OTExMTg2NDQsImp0aSI6IjEiLCJpc3MiOiIxIiwic3ViIjoidGVzdCJ9.ClG1gYyNjmrEH9c2WrJn8UFeC7o3Kd2nY0CQlg2YbwY
+
+### Session Info ###
+
+GET http://localhost:8000/api/session
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJjbGllbnQiLCJleHAiOjE2OTExMTg2NDQsImp0aSI6IjEiLCJpc3MiOiIxIiwic3ViIjoidGVzdCJ9.ClG1gYyNjmrEH9c2WrJn8UFeC7o3Kd2nY0CQlg2YbwY

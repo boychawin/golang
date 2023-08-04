@@ -1,0 +1,14 @@
+app_port: 8000
+app_name: 'login_system'
+##### JWT
+jwt_ACCESS_TOKEN_SECRET: 'EiKf9vBVMW0Qiu6EWgzwU7PyCdD0BLxv7ks4kTe4fXvGPDYsS3QT3wugV4ReGopbg'
+jwt_REFRESH_TOKEN_SECRET: '0ueUlWRDDjvu7188rORSqZVuwWUVvJSyPGWw84J3HxgWmW9VKRP4RFzW2Imvb1Jbg'
+##### Redis
+redis_path: 'localhost:6379'
+##### Database
+db_driver: 'postgres'
+db_host: '127.0.0.1'
+db_port: 5432
+db_username: 'admin'
+db_password: 'admin'
+db_database: 'testdb'
