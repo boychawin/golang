@@ -11,10 +11,11 @@ import (
 	"github.com/spf13/viper"
 
 	// "gorm.io/driver/mysql"
+	gorms "login_jwt/gorm"
+	"login_jwt/models"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"login_jwt/gorm"
-	"login_jwt/models"
 )
 
 func InitConfig() {
@@ -72,7 +73,7 @@ func InitRedis() *redis.Client {
 
 func InitCors() fiber.Handler {
 	return cors.New(cors.Config{
-		AllowOrigins:     "*",
+		AllowOrigins:     "https://gutravels.com", // Single string origin
 		AllowMethods:     "GET,POST,PUT,DELETE",
 		AllowHeaders:     "Content-Type,Authorization,Token",
 		AllowCredentials: true,
@@ -80,9 +81,32 @@ func InitCors() fiber.Handler {
 	})
 }
 
-
 func FibersConfig() fiber.Config {
 	return fiber.Config{
 		BodyLimit: 200 * 1024 * 1024,
+	}
+}
+
+// Use the LimitRequests middleware with a limit of 5 requests per minute
+func LimitRequests(maxRequests int, duration time.Duration) fiber.Handler {
+	requests := make(chan struct{}, maxRequests)
+	ticker := time.Tick(duration)
+
+	go func() {
+		for range ticker {
+			requests = make(chan struct{}, maxRequests)
+		}
+	}()
+
+	return func(c *fiber.Ctx) error {
+		select {
+		case requests <- struct{}{}:
+			return c.Next()
+		default:
+			return c.Status(fiber.StatusTooManyRequests).JSON(fiber.Map{
+				"Status":   "error",
+				"Messages": "Request limit exceeded",
+			})
+		}
 	}
 }

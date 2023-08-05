@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	configs "login_jwt/config"
 	"login_jwt/handlers"
@@ -13,6 +14,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+
+
 func main() {
 	configs.InitTimeZone()
 	configs.InitConfig()
@@ -21,11 +24,19 @@ func main() {
 	app := fiber.New(configs.FibersConfig())
 
 	app.Use(configs.InitCors())
+	app.Use(configs.LimitRequests(1000, time.Minute))
 	redisClient := configs.InitRedis()
 	/** Auth **/
 	authRepositoryDB := repositorys.NewAuthRepositoryDB(db)
 	authService := services.NewAuthService(authRepositoryDB, redisClient)
 	authHandler := handlers.NewAuthHandler(authService)
+
+	
+
+
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, Fiber!")
+	})
 
 	/** Auth **/
 	app.Post("api/login", authHandler.Login)
