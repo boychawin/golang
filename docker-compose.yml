@@ -26,7 +26,6 @@ services:
       - ./config/redis.conf:/redis.conf
     command: redis-server /redis.conf
 
-
   # pgadmin:
   #   container_name: pgadmin
   #   image: dpage/pgadmin4
